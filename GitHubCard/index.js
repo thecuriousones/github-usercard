@@ -5,19 +5,13 @@ import axios from 'axios'
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+const cards = document.querySelector(".cards");
 axios.get('https://api.github.com/users/thecuriousones')
   .then((res) => {
-    const cards = document.querySelector('.cards')
-    console.log(makeCard(res.data))
     cards.appendChild(makeCard(res.data))
-    // my followers cards
-    axios.get(res.data.followers_url)
-      .then((res) => {
-        res.data.forEach((follower) => {
-          cards.appendChild(makeCard(follower))
-        })
-      })
-
+  })
+  .catch((err) => {
+    console.log(err);
   })
   
   
@@ -33,7 +27,7 @@ axios.get('https://api.github.com/users/thecuriousones')
   STEP 4: Pass the data received from Github into your function,
     and append the returned markup to the DOM as a child of .cards
 */
-
+    
 
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
@@ -46,15 +40,18 @@ axios.get('https://api.github.com/users/thecuriousones')
     user, and adding that card to the DOM.
 */
 
-// const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell','alphaseinor', 'SavvyPlusPlus', 'tbauer1979'];
 
-// followersArray.forEach((follower) => {
-//   axios.get('https://api.github.com/users/thecuriousones/followers')
-//     .then((res) => {
-//     // const cards = document.querySelector('.cards')
-//     cards.appendChild(makeCard(follower))
-//     })
-// })
+followersArray.forEach((username) => {
+  axios.get(`https://api.github.com/users/${username}`)
+  .then((res) => {
+    const card = makeCard(res.data);
+    cards.appendChild(card);
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+})
 
 
 
